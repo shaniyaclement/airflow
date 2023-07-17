@@ -31,3 +31,9 @@ import pytest
 from airflow.exceptions import AirflowException, AirflowProviderDeprecationWarning
 from airflow.providers.google.cloud.hooks.datapipeline import DataPipelineHook
 
+TASK_ID = "test-datapipeline-operator"
+DATA_PIPELINE_NAME = "" # TODO add data pipeline name to be tested
+BODY = "" # TODO add data pipeline body
+PROJECT_ID = "dataflow-interns"
+LOCATION = "DEFAULT_DATAPIPELINE_LOCATION"
+GCP_CONN_ID ="google_cloud_default"
