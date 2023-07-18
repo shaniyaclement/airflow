@@ -82,6 +82,11 @@ class CreateDataPipelineOperator(GoogleCloudBaseOperator):
         )
         self.log.info("Response Body: ", self.data_pipeline)
 
+        if "error" in self.response:
+            raise AirflowException(
+                print(self.data_pipeline.get("error").get("message"))
+            )
+
         # returns the full response body
         return self.data_pipeline
 
@@ -135,5 +140,10 @@ class RunDataPipelineOperator(GoogleCloudBaseOperator):
             project_id = self.project_id,
             location = self.location,
         )
+
+        if "error" in self.response:
+            raise AirflowException(
+                print(self.response.get("error").get("message"))
+            )
 
         return self.response
