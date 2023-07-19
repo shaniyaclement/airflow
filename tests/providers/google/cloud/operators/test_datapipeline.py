@@ -28,7 +28,6 @@ from airflow.providers.google.cloud.operators.datapipeline import (
     CreateDataPipelineOperator,
     RunDataPipelineOperator,
 )
-from airflow.providers.google.cloud.hooks.datapipeline import DataPipelineHook
 from airflow.version import version
 
 TASK_ID = "test-datapipeline-operators"
@@ -86,18 +85,17 @@ class TestRunDataPipelineOperator:
 
     @mock.patch("airflow.providers.google.cloud.operators.datapipeline.DataPipelineHook")
     def test_execute(self, data_pipeline_hook_mock, run_operator):
-        run_pipeline_hook = data_pipeline_hook_mock.return_value.run_data_pipeline
-        run_operator.execute()
+        """Test Run Operator execute with correct parameters"""
+        run_operator.execute(mock.MagicMock())
         data_pipeline_hook_mock.assert_called_once_with(
             gcp_conn_id=TEST_GCP_CONN_ID,
             impersonation_chain=None,
         )
         
-        run_pipeline_hook.assert_called_once_with(
+        data_pipeline_hook_mock.return_value.run_data_pipeline.assert_called_once_with(
             data_pipeline_name=TEST_DATA_PIPELINE_NAME,
             project_id=TEST_PROJECTID,
             location=TEST_LOCATION,
         )
 
-    # TODO write test with correct params
-    # TODO write test with wrong params
+    # TODO test execute errors
